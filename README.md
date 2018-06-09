@@ -10,18 +10,18 @@
 
 ### Campaigns
 ```ruby
+POST http://host/campaigns - create
 GET http://host/campaigns - read all
 GET http://host/campaigns/1 - read by ID
-POST http://host/campaigns - create
 DELETE http://host/campaigns - delete all
 DELETE http://host/campaigns/1 - delete by ID
 ```
 
 ### Banners
 ```ruby
+POST http://host/banners - create
 GET http://host/banners - read all
 GET http://host/banners/1 - read by ID
-POST http://host/banners - create
 DELETE http://host/banners - delete all
 DELETE http://host/banners/1 - delete by ID
 ```
@@ -32,7 +32,7 @@ Example banners key:
 [{"name":"banner1", "width": 200, "height": 300, "content": "lorem"}, {"name": "banner2", "width": 400, "height": 500, "content": "ipsum"}, {"name": "banner3", "width": 600, "height": 700, "content": "dolor"}])
 ```
 ```ruby
-GET http://host/campaignsBanners - create batch
+GET http://host/campaignAndBanners - create batch
 ```
 
 ### Recommend
