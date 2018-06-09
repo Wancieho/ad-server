@@ -176,6 +176,8 @@ class MysqliDriver {
 
     /*
      * Where claus Query string builder
+     * 
+     * @return string
      */
 
     static private function buildWhere($params = null) {
