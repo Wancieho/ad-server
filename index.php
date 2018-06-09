@@ -5,12 +5,12 @@ require_once __DIR__ . '/vendor/jacwright/restserver/source/Jacwright/RestServer
 
 use Jacwright\RestServer\RestServer;
 
-spl_autoload_register(); // don't load our classes unless we use them
+spl_autoload_register();
 
-$mode = 'debug'; // 'debug' or 'production'
+$mode = 'debug';
 $server = new RestServer($mode);
-// $server->refreshCache(); // uncomment momentarily to clear the cache if classes change in production mode
 
 $server->addClass('CampaignsController', '/campaigns');
+$server->addClass('BannersController', '/banners');
 
 $server->handle();

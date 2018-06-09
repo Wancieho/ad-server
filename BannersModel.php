@@ -2,6 +2,6 @@
 
 class BannersModel extends Model {
 
-    static protected $table = 'bannerz';
+    static protected $store = 'bannerz';
 
 }
