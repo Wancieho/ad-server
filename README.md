@@ -6,6 +6,37 @@
 * Create vw_ad_server database and import vw_ad_server.sql.
 * Update Config.php with DB connection details.
 
+## Usage
+
+### Campaigns
+```ruby
+GET http://host/campaigns - retrieve all
+GET http://host/campaigns/1 - retrieve by ID
+POST http://host/campaigns - create
+DELETE http://host/campaigns - delete all
+DELETE http://host/campaigns/1 - delete by ID
+```
+
+### Banners
+```ruby
+GET http://host/banners - retrieve all
+GET http://host/banners/1 - retrieve by ID
+POST http://host/banners - create
+DELETE http://host/banners - delete all
+DELETE http://host/banners/1 - delete by ID
+```
+
+### Campaign and banners
+eg. banner key: [{"name":"banner1", "width": 200, "height": 300, "content": "lorem"}, {"name": "banner2", "width": 400, "height": 500, "content": "ipsum"}, {"name": "banner3", "width": 600, "height": 700, "content": "dolor"}])
+```ruby
+GET http://host/campaignsBanners - create batch
+```
+
+### Recommend
+```ruby
+GET http://host/recommend?width=200&height=300 - retrieve random banner
+```
+
 ## Notes
 
 * I couldn't create a storage interface as I followed an ORM pattern, and in doing so each developer created Model only uses static methods from the MysqliDriver class.

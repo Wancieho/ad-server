@@ -15,6 +15,7 @@ class RecommendController {
             throw new RestException(401, 'Fields `width` and `height` must be defined to retrieve a recommended banner');
         }
 
+        // #TODO: research more optimal way of doing this as it could be quite slow if MySQL has to process too many using RAND()
         $banner = BannersModel::get($_GET, 'ORDER BY RAND()');
 
         if (!isset($banner->id)) {
