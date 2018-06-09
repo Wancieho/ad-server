@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * Banner object class
+ */
+
 final class Banner {
 
     public $id, $name, $campaign_id, $width, $height, $content;

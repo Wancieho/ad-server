@@ -1,6 +1,13 @@
 <?php
 
+/*
+ * Model class that custom models use to query DB or save to file system
+ */
+
 class Model {
+    /*
+     * Property used for either MySQL table name or file storage file name
+     */
 
     static protected $store = '';
 
@@ -16,13 +23,20 @@ class Model {
         return self::run('delete', $id);
     }
 
+    /*
+     * Switching method for reading either from file or MySQL specified by Config driver
+     * 
+     * @return mixed
+     */
+
     static private function run($action = '', $params = null, $order = '') {
         if (!isset(Config::$driver)) {
             throw new RestException(401, 'Specify Config data driver');
         }
 
+        // #TODO: add file storage
         if (Config::$driver === 'file') {
-            // #TODO: add file storage
+            
         } elseif (Config::$driver === 'mysqli') {
             MysqliDriver::$table = self::storeName();
 
@@ -41,8 +55,13 @@ class Model {
         throw new RestException(401, 'Specified Config data driver not supported');
     }
 
+    /*
+     * Generate dynamic store name based on child class
+     * 
+     * @return string
+     */
+
     static private function storeName() {
-        // if the store property has not been assigned then use the child class name
         if (empty(static::$store)) {
             static::$store = str_replace('model', '', strtolower(get_called_class()));
         }

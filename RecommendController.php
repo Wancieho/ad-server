@@ -14,7 +14,7 @@ class RecommendController {
 
         $banner = BannersModel::get($_GET, 'ORDER BY RAND()');
 
-        if (is_null($banner)) {
+        if (!isset($banner->id)) {
             throw new RestException(404, 'Not found');
         }
 

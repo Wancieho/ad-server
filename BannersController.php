@@ -5,31 +5,8 @@ use Jacwright\RestServer\RestException;
 class BannersController {
 
     /**
-     * @url GET /
-     */
-    public function index() {
-        $banners = BannersModel::get();
-
-        foreach ($banners as &$val) {
-            unset($val['id']);
-        }
-
-        return $banners;
-    }
-
-    /**
-     * @url GET /$id
-     */
-    public function read($id = null) {
-        $banner = BannersModel::get($id);
-
-        unset($banner->id);
-
-        return $banner;
-    }
-
-    /**
      * @url POST /
+     * @return object
      */
     public function create() {
         if (!isset($_POST['name']) || empty($_POST['name']) || !isset($_POST['campaign_id']) || !isset($_POST['width']) || !isset($_POST['height']) || !isset($_POST['content'])) {
@@ -51,7 +28,42 @@ class BannersController {
     }
 
     /**
+     * @url GET /
+     * @return array
+     */
+    public function readAll() {
+        $banners = BannersModel::get();
+
+        foreach ($banners as &$val) {
+            unset($val['id']);
+        }
+
+        return $banners;
+    }
+
+    /**
+     * @url GET /$id
+     * @return object
+     */
+    public function read($id = null) {
+        $banner = BannersModel::get($id);
+
+        unset($banner->id);
+
+        return $banner;
+    }
+
+    /**
+     * @url DELETE /
+     * @return object
+     */
+    public function deleteAll() {
+        return BannersModel::delete();
+    }
+
+    /**
      * @url DELETE /$id
+     * @return object
      */
     public function delete($id = null) {
         return BannersModel::delete($id);

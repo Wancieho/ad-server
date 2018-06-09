@@ -6,6 +6,12 @@ class MysqliDriver {
 
     static public $table = '';
 
+    /*
+     * Retrieves either a single table row or multiple rows depending on params
+     * 
+     * @return mixed
+     */
+
     static public function get($params = null, $order = '') {
         $data = [];
 
@@ -31,7 +37,7 @@ class MysqliDriver {
                 }
             }
 
-            return null;
+            return (object) [];
         } else { // all entries for specified table
             $statement = DB::handler()->prepare('SELECT * FROM ' . static::$table);
 
@@ -53,6 +59,12 @@ class MysqliDriver {
             return $data;
         }
     }
+
+    /*
+     * Saves data into table
+     * 
+     * @return object
+     */
 
     static public function save($data = null) {
         $keys = [];
@@ -110,8 +122,20 @@ class MysqliDriver {
         return (object) ['id' => $id];
     }
 
+    /*
+     * Delete row from table
+     * 
+     * @return object
+     */
+
     static public function delete($id = null) {
-        $statement = DB::handler()->prepare('DELETE FROM ' . static::$table . ' WHERE id=' . $id);
+        $where = '';
+
+        if (is_string($id)) {
+            $where = ' WHERE id=' . $id;
+        }
+
+        $statement = DB::handler()->prepare('DELETE FROM ' . static::$table . $where);
 
         $statement->execute();
 
@@ -125,18 +149,28 @@ class MysqliDriver {
 
         $statement->close();
 
-        if ($success > 0) {
+        if ($success > 0 && is_string($id)) {
             return (object) ['id' => $id];
         }
 
         return (object) [];
     }
 
+    /*
+     * Reusable query error method
+     * 
+     * @return string
+     */
+
     static private function queryError($statement) {
         if (!empty($statement->error)) {
             throw new RestException(401, $statement->error);
         }
     }
+
+    /*
+     * Where claus Query string builder
+     */
 
     static private function buildWhere($params = null) {
         $where = '';

@@ -1,10 +1,20 @@
 <?php
 
+/*
+ * mysqli DB connector
+ */
+
 use Jacwright\RestServer\RestException;
 
 class DB {
 
     static private $handler;
+
+    /*
+     * Connect to DB and set class static handler property
+     * 
+     * @return void
+     */
 
     static private function connect() {
         self::$handler = @new mysqli(Config::$mysqli->server, Config::$mysqli->username, Config::$mysqli->password, Config::$mysqli->database);
@@ -14,7 +24,14 @@ class DB {
         }
     }
 
+    /*
+     * Check if DB connected
+     * 
+     * @return object
+     */
+
     static public function handler() {
+        // if handler has not been created then create now
         if (is_null(self::$handler)) {
             self::connect();
         }

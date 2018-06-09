@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/vendor/jacwright/restserver/source/Jacwright/RestServer/RestServer.php';
-require_once __DIR__ . '/vendor/jacwright/restserver/source/Jacwright/RestServer/RestException.php';
 
 use Jacwright\RestServer\RestServer;
 

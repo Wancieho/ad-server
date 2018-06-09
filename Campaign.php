@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * Campaign object class
+ */
+
 final class Campaign {
 
     public $id, $name;
