@@ -5,8 +5,6 @@ use Jacwright\RestServer\RestException;
 class CampaignsController {
 
     /**
-     * Returns a JSON string object to the browser when hitting the root of the domain
-     *
      * @url GET /
      */
     public function index() {
@@ -14,8 +12,6 @@ class CampaignsController {
     }
 
     /**
-     * Returns a JSON string object to the browser when hitting the root of the domain
-     *
      * @url GET /$id
      */
     public function read($id = null) {
@@ -23,8 +19,6 @@ class CampaignsController {
     }
 
     /**
-     * Returns a JSON string object to the browser when hitting the root of the domain
-     *
      * @url POST /
      */
     public function create() {
@@ -32,9 +26,16 @@ class CampaignsController {
             throw new RestException(401, '`name` field must be specified');
         }
 
-        return CampaignsModel::save(new Campaign([
-                    'name' => $_POST['name'],
+        return CampaignsModel::save(new Campaign((object) [
+                            'name' => $_POST['name'],
         ]));
+    }
+
+    /**
+     * @url DELETE /$id
+     */
+    public function delete($id = null) {
+        return CampaignsModel::delete($id);
     }
 
 }

@@ -4,10 +4,10 @@ final class Campaign {
 
     public $id, $name;
 
-    public function __construct(Array $data) {
-        $this->id = isset($data['id']) ? $data['id'] : null;
+    public function __construct(stdClass $data) {
+        $this->id = isset($data->id) ? $data->id : null;
 
-        $this->name = $data['name'];
+        $this->name = $data->name;
 
         return $this;
     }

@@ -2,6 +2,8 @@
 
 use Jacwright\RestServer\RestException;
 
+// #TODO: move mysqli into mysqli class
+
 abstract class Model {
 
     static protected $table = '';
@@ -15,6 +17,8 @@ abstract class Model {
             
         } elseif (Config::$driver === 'mysqli') {
             // single entry query by ID
+            $data = [];
+
             if ($id !== null) {
                 $statement = DB::handler()->prepare('SELECT * FROM ' . self::tableName() . ' WHERE id=' . $id);
 
@@ -24,9 +28,13 @@ abstract class Model {
 
                 $result = $statement->get_result();
 
+                $data = $result->fetch_assoc();
+
                 $statement->close();
 
-                return (object) $result->fetch_assoc();
+                unset($data['id']);
+
+                return (object) $data;
             } else { // all entries for specified table
                 $statement = DB::handler()->prepare('SELECT * FROM ' . self::tableName());
 
@@ -36,10 +44,10 @@ abstract class Model {
 
                 $result = $statement->get_result();
 
-                $data = [];
-
                 // insert all DB results into array for return
                 while ($row = $result->fetch_assoc()) {
+                    unset($row['id']);
+
                     $data[] = $row;
                 }
 
@@ -87,19 +95,41 @@ abstract class Model {
             $params[] = &$vals[$key];
         }
 
+        // dynamically call bind_param method based on array of fields to save
         call_user_func_array(array($statement, 'bind_param'), $params);
 
         $statement->execute();
 
         self::queryError($statement);
 
+        // store inserted ID for return
         $id = $statement->insert_id;
 
         $statement->close();
 
-        return [
-            'id' => $id
-        ];
+        return ['id' => $id];
+    }
+
+    static public function delete($id = null) {
+        $statement = DB::handler()->prepare('DELETE FROM ' . self::tableName() . ' WHERE id=' . $id);
+
+        $statement->execute();
+
+        self::queryError($statement);
+
+        $success = false;
+
+        if ($statement->affected_rows > 0) {
+            $success = true;
+        }
+
+        $statement->close();
+
+        if ($success > 0) {
+            return (object) ['id' => $id];
+        }
+
+        return (object) [];
     }
 
     static private function tableName() {
