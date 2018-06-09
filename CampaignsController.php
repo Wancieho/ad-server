@@ -1,5 +1,7 @@
 <?php
 
+use Jacwright\RestServer\RestException;
+
 class CampaignsController {
 
     /**
@@ -23,11 +25,15 @@ class CampaignsController {
     /**
      * Returns a JSON string object to the browser when hitting the root of the domain
      *
-     * @url GET /create/$name
+     * @url POST /
      */
-    public function create($name = '') {
+    public function create() {
+        if (!isset($_POST['name'])) {
+            throw new RestException(401, '`name` field must be specified');
+        }
+
         return CampaignsModel::save(new Campaign([
-                    'name' => $name,
+                    'name' => $_POST['name'],
         ]));
     }
 
