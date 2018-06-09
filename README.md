@@ -27,7 +27,7 @@ DELETE http://host/banners/1 - delete by ID
 ```
 
 ### Campaign and banners
-Example banners key:
+Example `banners` key:
 ```ruby
 [{"name":"banner1", "width": 200, "height": 300, "content": "lorem"}, {"name": "banner2", "width": 400, "height": 500, "content": "ipsum"}, {"name": "banner3", "width": 600, "height": 700, "content": "dolor"}])
 ```
