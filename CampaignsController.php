@@ -22,8 +22,8 @@ class CampaignsController {
      * @url POST /
      */
     public function create() {
-        if (!isset($_POST['name'])) {
-            throw new RestException(401, '`name` field must be specified');
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            throw new RestException(401, 'Field `name` must be specified to create a campaign');
         }
 
         return CampaignsModel::save(new Campaign((object) [

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 09, 2018 at 01:41 PM
+-- Generation Time: Jun 09, 2018 at 05:17 PM
 -- Server version: 5.7.19
 -- PHP Version: 7.1.9
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ad_server`
+-- Database: `vw_ad_server`
 --
 
 -- --------------------------------------------------------
@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `bannerz` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `campaign_id` int(11) NOT NULL,
   `name` text NOT NULL,
-  `width` smallint(6) NOT NULL,
-  `height` smallint(6) NOT NULL,
-  `content` blob NOT NULL,
+  `width` smallint(6) DEFAULT '0',
+  `height` smallint(6) DEFAULT '0',
+  `content` blob,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

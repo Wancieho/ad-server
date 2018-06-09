@@ -11,6 +11,7 @@ class Config {
     ];
 
     public function __construct() {
+        // convert mysqli property to an object instead of array for easier use
         self::$mysqli = (object) self::$mysqli;
     }
 
