@@ -4,6 +4,10 @@ namespace App\Utils;
 
 use Jacwright\RestServer\RestException;
 
+/*
+ * MySQLi class used for building queries to process using prepared statements
+ */
+
 class MysqliDriver {
 
     static public $table = '';

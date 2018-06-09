@@ -2,13 +2,13 @@
 
 namespace App\Utils;
 
+use Jacwright\RestServer\RestException;
 use mysqli;
 use Config;
 
 /*
- * mysqli DB connector
+ * MySQLi DB connector which acts almost like a singleton
  */
-use Jacwright\RestServer\RestException;
 
 class DB {
 
