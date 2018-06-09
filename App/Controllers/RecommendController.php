@@ -1,6 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
 use Jacwright\RestServer\RestException;
+use App\Models\BannersModel;
 
 class RecommendController {
 

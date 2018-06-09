@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Utils;
+
 use Jacwright\RestServer\RestException;
 
 class MysqliDriver {

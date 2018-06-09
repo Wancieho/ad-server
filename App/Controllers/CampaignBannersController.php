@@ -1,13 +1,15 @@
 <?php
 
+namespace App\Controllers;
+
+use Jacwright\RestServer\RestException;
+
 // #TODO: would like to improve this class as it's an ugly hack but that also requires re-engineering the other controllers as per readme
 // #TODO: if any banners or campaign insert failed either need to rollback entire batch or return errors in response
 
 /*
  * Example banner key: [{"name":"banner1", "width": 200, "height": 300, "content": "lorem"}, {"name": "banner2", "width": 400, "height": 500, "content": "ipsum"}, {"name": "banner3", "width": 600, "height": 700, "content": "dolor"}]
  */
-
-use Jacwright\RestServer\RestException;
 
 class CampaignBannersController {
 

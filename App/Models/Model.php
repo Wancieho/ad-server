@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Models;
+
+use Config;
+use App\Utils\MysqliDriver;
+
 /*
  * Model class that custom models use to query DB or save to file system
  */
@@ -63,7 +68,7 @@ class Model {
 
     static private function storeName() {
         if (empty(static::$store)) {
-            static::$store = str_replace('model', '', strtolower(get_called_class()));
+            static::$store = str_replace('model', '', strtolower(str_replace('App\\Models\\', '', get_called_class())));
         }
 
         return static::$store;

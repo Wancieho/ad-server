@@ -1,6 +1,10 @@
 <?php
 
+namespace App\Controllers;
+
 use Jacwright\RestServer\RestException;
+use App\Models\CampaignsModel;
+use App\Objects\Campaign;
 
 class CampaignsController {
 

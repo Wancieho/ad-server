@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Objects;
+
+use stdClass;
+
 /*
  * Banner object class
  */

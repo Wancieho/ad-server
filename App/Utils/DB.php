@@ -1,9 +1,13 @@
 <?php
 
+namespace App\Utils;
+
+use mysqli;
+use Config;
+
 /*
  * mysqli DB connector
  */
-
 use Jacwright\RestServer\RestException;
 
 class DB {
