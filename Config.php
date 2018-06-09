@@ -7,7 +7,7 @@ class Config {
         'server' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'ad_server',
+        'database' => 'vw_ad_server',
     ];
 
     public function __construct() {
