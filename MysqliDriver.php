@@ -108,7 +108,7 @@ class MysqliDriver {
 
         $statement->close();
 
-        return ['id' => $id];
+        return (object) ['id' => $id];
     }
 
     static public function delete($id = null) {

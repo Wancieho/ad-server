@@ -12,5 +12,6 @@ $server = new RestServer($mode);
 
 $server->addClass('CampaignsController', '/campaigns');
 $server->addClass('BannersController', '/banners');
+$server->addClass('CampaignBannersController', '/campaignAndBanners');
 
 $server->handle();
