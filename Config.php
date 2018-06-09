@@ -3,7 +3,7 @@
 class Config {
 
     static public $driver = 'mysqli';
-    static public $mysql = [
+    static public $mysqli = [
         'server' => 'localhost',
         'username' => 'root',
         'password' => '',
@@ -11,7 +11,7 @@ class Config {
     ];
 
     public function __construct() {
-        self::$mysql = (object) self::$mysql;
+        self::$mysqli = (object) self::$mysqli;
     }
 
 }
