@@ -14,8 +14,6 @@ abstract class Model {
         if (Config::$driver === 'file') {
             
         } elseif (Config::$driver === 'mysqli') {
-            self::checkTableName();
-
             // single entry query by ID
             if ($id !== null) {
                 $statement = DB::handler()->prepare('SELECT * FROM ' . self::tableName() . ' WHERE id=' . $id);
@@ -28,7 +26,7 @@ abstract class Model {
 
                 $statement->close();
 
-                return (array) $result->fetch_assoc();
+                return (object) $result->fetch_assoc();
             } else { // all entries for specified table
                 $statement = DB::handler()->prepare('SELECT * FROM ' . self::tableName());
 

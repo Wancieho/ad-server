@@ -14,7 +14,7 @@ class CampaignsController {
     /**
      * Returns a JSON string object to the browser when hitting the root of the domain
      *
-     * @url GET /test/$id
+     * @url GET /$id
      */
     public function read($id = null) {
         return CampaignsModel::get($id);
@@ -23,11 +23,11 @@ class CampaignsController {
     /**
      * Returns a JSON string object to the browser when hitting the root of the domain
      *
-     * @url GET /$id
+     * @url GET /create/$name
      */
-    public function create() {
+    public function create($name = '') {
         return CampaignsModel::save(new Campaign([
-                    'name' => 'Megadeth',
+                    'name' => $name,
         ]));
     }
 
