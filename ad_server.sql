@@ -25,11 +25,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `banners`
+-- Table structure for table `bannerz`
 --
 
-DROP TABLE IF EXISTS `banners`;
-CREATE TABLE IF NOT EXISTS `banners` (
+DROP TABLE IF EXISTS `bannerz`;
+CREATE TABLE IF NOT EXISTS `bannerz` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `campaign_id` int(11) NOT NULL,
   `name` text NOT NULL,
