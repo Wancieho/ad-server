@@ -6,11 +6,14 @@ class MysqliDriver {
 
     static public $table = '';
 
-    static public function get($id = null) {
+    static public function get($params = null, $order = '') {
         $data = [];
 
-        if ($id !== null) {
-            $statement = DB::handler()->prepare('SELECT * FROM ' . static::$table . ' WHERE id=' . $id);
+        // #TODO: improve below so that single entries and lists can be retrieved using WHERE and ORDER
+        if ($params !== null) {
+            $query = 'SELECT * FROM ' . static::$table . ' WHERE ' . self::buildWhere($params) . ' ' . $order;
+
+            $statement = DB::handler()->prepare($query);
 
             if ($statement) {
                 $statement->execute();
@@ -23,8 +26,6 @@ class MysqliDriver {
 
                 if (!is_null($data)) {
                     $statement->close();
-
-                    unset($data['id']);
 
                     return (object) $data;
                 }
@@ -43,8 +44,6 @@ class MysqliDriver {
 
                 // insert all DB results into array for return
                 while ($row = $result->fetch_assoc()) {
-                    unset($row['id']);
-
                     $data[] = $row;
                 }
 
@@ -137,6 +136,24 @@ class MysqliDriver {
         if (!empty($statement->error)) {
             throw new RestException(401, $statement->error);
         }
+    }
+
+    static private function buildWhere($params = null) {
+        $where = '';
+
+        if (!is_array($params)) {
+            $where = 'id=' . $params;
+        } elseif (is_array($params)) {
+            foreach ($params as $key => $val) {
+                if (!empty($where)) {
+                    $where .= ' AND ';
+                }
+
+                $where .= $key . '=' . $val;
+            }
+        }
+
+        return $where;
     }
 
 }

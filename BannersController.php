@@ -8,14 +8,24 @@ class BannersController {
      * @url GET /
      */
     public function index() {
-        return BannersModel::get();
+        $banners = BannersModel::get();
+
+        foreach ($banners as &$val) {
+            unset($val['id']);
+        }
+
+        return $banners;
     }
 
     /**
      * @url GET /$id
      */
     public function read($id = null) {
-        return BannersModel::get($id);
+        $banner = BannersModel::get($id);
+
+        unset($banner->id);
+
+        return $banner;
     }
 
     /**
@@ -23,7 +33,7 @@ class BannersController {
      */
     public function create() {
         if (!isset($_POST['name']) || empty($_POST['name']) || !isset($_POST['campaign_id']) || !isset($_POST['width']) || !isset($_POST['height']) || !isset($_POST['content'])) {
-            throw new RestException(401, 'Required fields must be specified to create a banner');
+            throw new RestException(401, 'Required fields must be defined to create a banner');
         }
 
         // make sure campaign_id that banner is trying to link to exists

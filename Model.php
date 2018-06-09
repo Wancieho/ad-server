@@ -4,8 +4,8 @@ class Model {
 
     static protected $store = '';
 
-    static public function get($id = null) {
-        return self::run('get', $id);
+    static public function get($params = null, $order = '') {
+        return self::run('get', $params, $order);
     }
 
     static public function save($data = null) {
@@ -16,7 +16,7 @@ class Model {
         return self::run('delete', $id);
     }
 
-    static private function run($action = '', $param = null) {
+    static private function run($action = '', $params = null, $order = '') {
         if (!isset(Config::$driver)) {
             throw new RestException(401, 'Specify Config data driver');
         }
@@ -28,13 +28,13 @@ class Model {
 
             switch ($action) {
                 case 'get':
-                    return MysqliDriver::get($param);
+                    return MysqliDriver::get($params, $order);
 
                 case 'save':
-                    return MysqliDriver::save($param);
+                    return MysqliDriver::save($params);
 
                 case 'delete':
-                    return MysqliDriver::delete($param);
+                    return MysqliDriver::delete($params);
             }
         }
 

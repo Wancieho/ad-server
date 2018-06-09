@@ -8,14 +8,24 @@ class CampaignsController {
      * @url GET /
      */
     public function index() {
-        return CampaignsModel::get();
+        $campaigns = CampaignsModel::get();
+
+        foreach ($campaigns as &$val) {
+            unset($val['id']);
+        }
+
+        return $campaigns;
     }
 
     /**
      * @url GET /$id
      */
     public function read($id = null) {
-        return CampaignsModel::get($id);
+        $campaign = CampaignsModel::get($id);
+
+        unset($campaign->id);
+
+        return $campaign;
     }
 
     /**
@@ -23,7 +33,7 @@ class CampaignsController {
      */
     public function create() {
         if (!isset($_POST['name']) || empty($_POST['name'])) {
-            throw new RestException(401, 'Field `name` must be specified to create a campaign');
+            throw new RestException(401, 'Field `name` must be defined to create a campaign');
         }
 
         return CampaignsModel::save(new Campaign((object) [
