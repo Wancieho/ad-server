@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Utils;
 
 use Config;
-use App\Utils\MysqliDriver;
 
 /*
  * Model class that custom models use to query DB or save to file system
  */
 
-class Model {
+class Storage {
     /*
      * Property used for either MySQL table name or file storage file name
      */

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
-class CampaignsModel extends Model {
+use App\Utils\Storage;
+
+class CampaignsModel extends Storage {
     
 }
