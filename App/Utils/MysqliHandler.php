@@ -8,7 +8,7 @@ use Jacwright\RestServer\RestException;
  * MySQLi class used for building queries to process using prepared statements
  */
 
-class MysqliDriver {
+class MysqliHandler {
 
     static public $table = '';
 

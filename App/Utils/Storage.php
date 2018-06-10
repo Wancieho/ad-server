@@ -42,17 +42,17 @@ class Storage {
         if (Config::$driver === 'file') {
             
         } elseif (Config::$driver === 'mysqli') {
-            MysqliDriver::$table = self::storeName();
+            MysqliHandler::$table = self::storeName();
 
             switch ($action) {
                 case 'get':
-                    return MysqliDriver::get($params, $order);
+                    return MysqliHandler::get($params, $order);
 
                 case 'save':
-                    return MysqliDriver::save($params);
+                    return MysqliHandler::save($params);
 
                 case 'delete':
-                    return MysqliDriver::delete($params);
+                    return MysqliHandler::delete($params);
             }
         }
 

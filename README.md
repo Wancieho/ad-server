@@ -48,3 +48,4 @@ GET http://host/recommend?width=200&height=300 - read random banner
 * Would like to have setup and use JSON data for sending to the API.
 * Didn't have time to do API update (PUT) calls.
 * Would have setup .env but had no time so went with a static class approach.
+* If allowed I would have added an additional library for running unit tests.
