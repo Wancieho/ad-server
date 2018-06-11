@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use Jacwright\RestServer\RestException;
 use Config;
 
 /*
@@ -54,6 +55,9 @@ class Storage {
 
                 case 'get':
                     return MysqliHandler::get($params);
+
+                case 'update':
+                    return MysqliHandler::update($params);
 
                 case 'delete':
                     return MysqliHandler::delete($params);

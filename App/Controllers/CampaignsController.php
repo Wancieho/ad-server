@@ -49,6 +49,23 @@ class CampaignsController {
     }
 
     /**
+     * @url PUT /$id
+     * @return object
+     */
+    public function update($id = null) {
+        $_PUT = [];
+
+        parse_str(file_get_contents('php://input'), $_PUT);
+
+        $campaign = CampaignsModel::update(new Campaign((object) [
+                            'id' => $id,
+                            'name' => $_PUT['name'],
+        ]));
+
+        return $campaign;
+    }
+
+    /**
      * @url DELETE /
      * @return object
      */

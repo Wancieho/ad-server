@@ -19,8 +19,8 @@ class MysqliHandler {
      */
 
     static public function save($data = null) {
-        $keys = [];
         $vals = [];
+        $keys = [];
         $inserts = [];
 
         foreach ($data as $key => $val) {
@@ -35,11 +35,12 @@ class MysqliHandler {
 
         $statement = DB::handler()->prepare($query);
 
-        // #TODO: add this check when running any queries
         if (!$statement) {
+            // #TODO: move into reusable method
             throw new RestException(401, 'Error executing query `' . $query . '`');
         }
 
+        // #TODO: put this into reusable method
         $dataTypes = '';
 
         foreach ($data as $key => $val) {
@@ -96,6 +97,10 @@ class MysqliHandler {
 
         $statement = DB::handler()->prepare($query);
 
+        if (!$statement) {
+            throw new RestException(401, 'Error executing query `' . $query . '`');
+        }
+
         if ($statement) {
             $statement->execute();
 
@@ -128,18 +133,61 @@ class MysqliHandler {
      * @return object
      */
 
-    static public function update($params = null) {
-//        $query = 'INSERT INTO ' . static::$table . ' (' . join(',', $keys) . ') VALUES (' . join(',', $inserts) . ')';
+    static public function update($data = null) {
+        $id = $data->id;
+        $vals = [];
+        $set = '';
 
-        $fields = '';
+        // remove ID form array to prevent any MySQL query issues
+        unset($data->id);
 
-        foreach ($params->fields as $key => $val) {
-            
+        foreach ($data as $key => $val) {
+            if (!is_null($val)) {
+                if (!empty($set)) {
+                    $set .= ', ';
+                }
+
+                $set .= $key . '=?';
+                $vals[] = $val;
+            }
         }
 
-        $query = 'UPDATE ' . static::$table . ' SET ' . $fields . ' WHERE id=' . $params->id;
+        $query = 'UPDATE ' . static::$table . ' SET ' . $set . ' WHERE id=' . $id;
 
         $statement = DB::handler()->prepare($query);
+
+        if (!$statement) {
+            throw new RestException(401, 'Error executing query `' . $query . '`');
+        }
+
+        $dataTypes = '';
+
+        foreach ($data as $key => $val) {
+            if (is_string($val)) {
+                $dataTypes .= 's';
+            } elseif (is_int($val)) {
+                $dataTypes .= 'i';
+            }
+        }
+
+        $params = [];
+
+        // add data types to bind params array
+        $params[] = &$dataTypes;
+
+        // add values to bind params array
+        foreach ($vals as $key => $val) {
+            $params[] = &$vals[$key];
+        }
+
+        // dynamically call bind_param method based on array of fields to save
+        call_user_func_array(array($statement, 'bind_param'), $params);
+
+        $statement->execute();
+
+        $statement->close();
+
+        return (object) ['id' => $id];
     }
 
     /*
