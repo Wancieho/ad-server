@@ -42,10 +42,9 @@ GET http://host/recommend?width=200&height=300 - read random banner
 
 ## Notes
 
-* I didn't need to create a storage interface as I followed an ORM pattern, and in doing so each developer created Model just extends Model which is my storage handler. I would need to think of any way to implement using a storage interface.
+* I didn't need to create a storage interface as I followed an ORM pattern, and in doing so each developer created Model just extends Model which is my storage handler. I would need to think of another way to implement using a storage interface.
 * I use the NetBeans default formatting (Alt + Shift + f) but would have liked to get some kind of lint running. I tried to get a psr2 plugin working in NetBeans but was unable to.
 * I would have broken the controller logic up into other classes to avoid instantiating controllers but I didn't due to lack of time. I would like to have found a solution to passing $_POST data to these classes instead of using the global $_POST but that would require understanding the RestServer route handling better. I could have maybe passed all the parameters through the URL to try fix the $_POST issue but this would have presented other issues.
 * Would like to have setup and use JSON data for sending to the API.
-* Didn't have time to do API update (PUT) calls.
-* Would have setup .env but had no time so went with a static class approach.
-* If allowed I would have added an additional library for running unit tests.
+* Would have setup .env but had no time so went with a static "singleton" approach.
+* If allowed I would have added an additional library for running unit tests to check each API call is working correctly.

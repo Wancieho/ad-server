@@ -198,9 +198,16 @@ class MysqliHandler {
 
     static public function delete($params = null) {
         $where = '';
+        $id = null;
 
-        if (is_string($params->id)) {
-            $where = ' WHERE id=' . $params->id;
+        if (is_int($params) || is_string($params)) {
+            $id = (integer) $params;
+
+            $where = ' WHERE id=' . $id;
+        } elseif (isset($params->id)) {
+            $id = (integer) $params->id;
+
+            $where = ' WHERE id=' . $id;
         }
 
         $query = 'DELETE FROM ' . static::$table . $where;
@@ -219,11 +226,11 @@ class MysqliHandler {
 
         $statement->close();
 
-        if ($success > 0 && is_string($params->id)) {
-            return (object) ['id' => $params->id];
+        if ($success) {
+            return true;
         }
 
-        return null;
+        return false;
     }
 
     /*
