@@ -51,7 +51,7 @@ class BannersController {
      * @return object
      */
     public function read($id = null) {
-        $banner = BannersModel::get($id);
+        $banner = BannersModel::get((object) ['id' => $id]);
 
         unset($banner->id);
 
@@ -71,7 +71,7 @@ class BannersController {
      * @return object
      */
     public function delete($id = null) {
-        return BannersModel::delete($id);
+        return BannersModel::delete((object) ['id' => $id]);
     }
 
 }

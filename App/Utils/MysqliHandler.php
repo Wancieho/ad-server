@@ -13,61 +13,7 @@ class MysqliHandler {
     static public $table = '';
 
     /*
-     * Retrieves either a single table row or multiple rows depending on params
-     * 
-     * @return mixed
-     */
-
-    static public function get($params = null, $order = '') {
-        $data = [];
-
-        // #TODO: improve below so that single entries and lists can be retrieved using WHERE and ORDER
-        if ($params !== null) {
-            $query = 'SELECT * FROM ' . static::$table . ' WHERE ' . self::buildWhere($params) . ' ' . $order;
-
-            $statement = DB::handler()->prepare($query);
-
-            if ($statement) {
-                $statement->execute();
-
-                self::queryError($statement);
-
-                $result = $statement->get_result();
-
-                $data = $result->fetch_assoc();
-
-                if (!is_null($data)) {
-                    $statement->close();
-
-                    return (object) $data;
-                }
-            }
-
-            return (object) [];
-        } else { // all entries for specified table
-            $statement = DB::handler()->prepare('SELECT * FROM ' . static::$table);
-
-            if ($statement) {
-                $statement->execute();
-
-                self::queryError($statement);
-
-                $result = $statement->get_result();
-
-                // insert all DB results into array for return
-                while ($row = $result->fetch_assoc()) {
-                    $data[] = $row;
-                }
-
-                $statement->close();
-            }
-
-            return $data;
-        }
-    }
-
-    /*
-     * Saves data into table
+     * Creates an entry in the specified table
      * 
      * @return object
      */
@@ -89,6 +35,7 @@ class MysqliHandler {
 
         $statement = DB::handler()->prepare($query);
 
+        // #TODO: add this check when running any queries
         if (!$statement) {
             throw new RestException(401, 'Error executing query `' . $query . '`');
         }
@@ -129,19 +76,88 @@ class MysqliHandler {
     }
 
     /*
+     * Reads either a single table row or multiple rows depending on params
+     * 
+     * @return mixed
+     */
+
+    static public function get($params = null) {
+        $data = [];
+        $where = isset($params->where) ? $params->where : [];
+        $order = isset($params->order) ? ' ' . $params->order : '';
+        $limit = isset($params->limit) ? ' ' . $params->limit : '';
+
+        if (isset($params->id)) {
+            // rebuild ID into object for dynamic where building
+            $where = ['id' => $params->id];
+        }
+
+        $query = 'SELECT * FROM ' . static::$table . self::buildWhere($where) . $order . $limit;
+
+        $statement = DB::handler()->prepare($query);
+
+        if ($statement) {
+            $statement->execute();
+
+            self::queryError($statement);
+
+            $result = $statement->get_result();
+
+            // insert all DB results into array for return
+            if ($result->num_rows > 1) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+            } elseif ($result->num_rows === 1) {
+                $data = (object) $result->fetch_assoc();
+            } else {
+                $data = null;
+            }
+
+            $statement->close();
+
+            return $data;
+        }
+
+        return null;
+    }
+
+    /*
+     * Update table row
+     * 
+     * @return object
+     */
+
+    static public function update($params = null) {
+//        $query = 'INSERT INTO ' . static::$table . ' (' . join(',', $keys) . ') VALUES (' . join(',', $inserts) . ')';
+
+        $fields = '';
+
+        foreach ($params->fields as $key => $val) {
+            
+        }
+
+        $query = 'UPDATE ' . static::$table . ' SET ' . $fields . ' WHERE id=' . $params->id;
+
+        $statement = DB::handler()->prepare($query);
+    }
+
+    /*
      * Delete row from table
      * 
      * @return object
      */
 
-    static public function delete($id = null) {
+    static public function delete($params = null) {
         $where = '';
 
-        if (is_string($id)) {
-            $where = ' WHERE id=' . $id;
+        if (is_string($params->id)) {
+            $where = ' WHERE id=' . $params->id;
         }
 
-        $statement = DB::handler()->prepare('DELETE FROM ' . static::$table . $where);
+        $query = 'DELETE FROM ' . static::$table . $where;
+
+        $statement = DB::handler()->prepare($query);
 
         $statement->execute();
 
@@ -155,8 +171,8 @@ class MysqliHandler {
 
         $statement->close();
 
-        if ($success > 0 && is_string($id)) {
-            return (object) ['id' => $id];
+        if ($success > 0 && is_string($params->id)) {
+            return (object) ['id' => $params->id];
         }
 
         return (object) [];
@@ -180,19 +196,17 @@ class MysqliHandler {
      * @return string
      */
 
-    static private function buildWhere($params = null) {
+    static private function buildWhere($params = []) {
         $where = '';
 
-        if (!is_array($params)) {
-            $where = 'id=' . $params;
-        } elseif (is_array($params)) {
-            foreach ($params as $key => $val) {
-                if (!empty($where)) {
-                    $where .= ' AND ';
-                }
-
-                $where .= $key . '=' . $val;
+        foreach ($params as $key => $val) {
+            if (empty($where)) {
+                $where = ' WHERE ';
+            } elseif (!empty($where)) {
+                $where .= ' AND ';
             }
+
+            $where .= $key . '=' . $val;
         }
 
         return $where;

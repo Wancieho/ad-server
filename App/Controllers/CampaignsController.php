@@ -41,7 +41,7 @@ class CampaignsController {
      * @return object
      */
     public function read($id = null) {
-        $campaign = CampaignsModel::get($id);
+        $campaign = CampaignsModel::get((object) ['id' => $id]);
 
         unset($campaign->id);
 

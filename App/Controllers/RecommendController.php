@@ -16,7 +16,14 @@ class RecommendController {
         }
 
         // #TODO: research more optimal way of doing this as it could be quite slow if MySQL has to process too many using RAND()
-        $banner = BannersModel::get($_GET, 'ORDER BY RAND()');
+        $banner = BannersModel::get((object) [
+                            'where' => [
+                                'width' => $_GET['width'],
+                                'height' => $_GET['height'],
+                            ],
+                            'order' => 'ORDER BY RAND()',
+                            'limit' => 'LIMIT 0,1'
+        ]);
 
         if (!isset($banner->id)) {
             throw new RestException(404, 'Not found');

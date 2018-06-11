@@ -15,16 +15,20 @@ class Storage {
 
     static protected $store = '';
 
-    static public function get($params = null, $order = '') {
-        return self::run('get', $params, $order);
-    }
-
     static public function save($data = null) {
         return self::run('save', $data);
     }
 
-    static public function delete($id = null) {
-        return self::run('delete', $id);
+    static public function get($params = null) {
+        return self::run('get', $params);
+    }
+
+    static public function update($params = null) {
+        return self::run('update', $params);
+    }
+
+    static public function delete($params = null) {
+        return self::run('delete', $params);
     }
 
     /*
@@ -33,7 +37,7 @@ class Storage {
      * @return mixed
      */
 
-    static private function run($action = '', $params = null, $order = '') {
+    static private function run($action = '', $params = null) {
         if (!isset(Config::$driver)) {
             throw new RestException(401, 'Specify Config data driver');
         }
@@ -45,11 +49,11 @@ class Storage {
             MysqliHandler::$table = self::storeName();
 
             switch ($action) {
-                case 'get':
-                    return MysqliHandler::get($params, $order);
-
                 case 'save':
                     return MysqliHandler::save($params);
+
+                case 'get':
+                    return MysqliHandler::get($params);
 
                 case 'delete':
                     return MysqliHandler::delete($params);
