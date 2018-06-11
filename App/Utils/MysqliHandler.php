@@ -175,7 +175,7 @@ class MysqliHandler {
             return (object) ['id' => $params->id];
         }
 
-        return (object) [];
+        return null;
     }
 
     /*
