@@ -2,7 +2,7 @@
 
 class Config {
 
-	static public $driver = 'file';
+	static public $driver = 'mysqli';
 	static public $file = [
 		'folder' => 'storage',
 		'extension' => '.txt',
