@@ -115,7 +115,7 @@ class MysqliHandler {
 				$data = (object) $result->fetch_assoc();
 			} else {
 				while ($row = $result->fetch_assoc()) {
-					$data[] = $row;
+					$data[] = (object) $row;
 				}
 			}
 

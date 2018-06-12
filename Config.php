@@ -2,18 +2,23 @@
 
 class Config {
 
-    static public $driver = 'mysqli';
-    static public $mysqli = [
-        'server' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'vw_ad_server',
-    ];
+	static public $driver = 'file';
+	static public $file = [
+		'folder' => 'storage',
+		'extension' => '.txt',
+	];
+	static public $mysqli = [
+		'server' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => 'vw_ad_server',
+	];
 
-    public function __construct() {
-        // convert mysqli property to an object instead of array for easier use
-        self::$mysqli = (object) self::$mysqli;
-    }
+	public function __construct() {
+		// convert array properties to objects for easier use
+		self::$file = (object) self::$file;
+		self::$mysqli = (object) self::$mysqli;
+	}
 
 }
 

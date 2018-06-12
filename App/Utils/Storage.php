@@ -10,75 +10,89 @@ use Config;
  */
 
 class Storage {
-    /*
-     * Property used for either MySQL table name or file storage file name
-     */
+	/*
+	 * Property used for either MySQL table name or file storage file name
+	 */
 
-    static protected $store = '';
+	static protected $store = '';
 
-    static public function save($data = null) {
-        return self::run('save', $data);
-    }
+	static public function save($data = null) {
+		return self::run('save', $data);
+	}
 
-    static public function get($params = null) {
-        return self::run('get', $params);
-    }
+	static public function get($params = null) {
+		return self::run('get', $params);
+	}
 
-    static public function update($params = null) {
-        return self::run('update', $params);
-    }
+	static public function update($params = null) {
+		return self::run('update', $params);
+	}
 
-    static public function delete($params = null) {
-        return self::run('delete', $params);
-    }
+	static public function delete($params = null) {
+		return self::run('delete', $params);
+	}
 
-    /*
-     * Switching method for reading either from file or MySQL specified by Config driver
-     * 
-     * @return mixed
-     */
+	/*
+	 * Switching method for reading either from file or MySQL specified by Config driver
+	 * 
+	 * @return mixed
+	 */
 
-    static private function run($action = '', $params = null) {
-        if (!isset(Config::$driver)) {
-            throw new RestException(401, 'Specify Config data driver');
-        }
+	static private function run($action = '', $params = null) {
+		if (!isset(Config::$driver)) {
+			throw new RestException(401, 'Specify Config data driver');
+		}
 
-        // #TODO: add file storage
-        if (Config::$driver === 'file') {
-            
-        } elseif (Config::$driver === 'mysqli') {
-            MysqliHandler::$table = self::storeName();
+		// #TODO: add file storage
+		if (Config::$driver === 'file') {
+			FileHandler::$file = self::storeName();
 
-            switch ($action) {
-                case 'save':
-                    return MysqliHandler::save($params);
+			switch ($action) {
+				case 'save':
+					return FileHandler::save($params);
 
-                case 'get':
-                    return MysqliHandler::get($params);
+				case 'get':
+					return FileHandler::get($params);
 
-                case 'update':
-                    return MysqliHandler::update($params);
+				case 'update':
+					return FileHandler::update($params);
 
-                case 'delete':
-                    return MysqliHandler::delete($params);
-            }
-        }
+				case 'delete':
+					return FileHandler::delete($params);
+			}
+		} elseif (Config::$driver === 'mysqli') {
+			MysqliHandler::$table = self::storeName();
 
-        throw new RestException(401, 'Specified Config data driver not supported');
-    }
+			switch ($action) {
+				case 'save':
+					return MysqliHandler::save($params);
 
-    /*
-     * Generate dynamic store name based on child class
-     * 
-     * @return string
-     */
+				case 'get':
+					return MysqliHandler::get($params);
 
-    static private function storeName() {
-        if (empty(static::$store)) {
-            static::$store = str_replace('model', '', strtolower(str_replace('App\\Models\\', '', get_called_class())));
-        }
+				case 'update':
+					return MysqliHandler::update($params);
 
-        return static::$store;
-    }
+				case 'delete':
+					return MysqliHandler::delete($params);
+			}
+		} else {
+			throw new RestException(401, 'Specified Config data driver not supported');
+		}
+	}
+
+	/*
+	 * Generate dynamic store name based on child class
+	 * 
+	 * @return string
+	 */
+
+	static private function storeName() {
+		if (empty(static::$store)) {
+			static::$store = str_replace('model', '', strtolower(str_replace('App\\Models\\', '', get_called_class())));
+		}
+
+		return static::$store;
+	}
 
 }
