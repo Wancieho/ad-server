@@ -5,7 +5,7 @@ namespace App\Objects;
 use stdClass;
 
 /*
- * Campaign object class
+ * campaign object class
  */
 
 final class Campaign {

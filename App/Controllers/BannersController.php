@@ -39,8 +39,8 @@ class BannersController {
 	public function readAll() {
 		$banners = BannersModel::get();
 
-		foreach ($banners as &$val) {
-			unset($val->id);
+		foreach ($banners as &$banner) {
+			unset($banner->id);
 		}
 
 		return $banners;
@@ -63,10 +63,6 @@ class BannersController {
 	 * @return object
 	 */
 	public function update($id = null) {
-		$_PUT = [];
-
-		parse_str(file_get_contents('php://input'), $_PUT);
-
 		$banner = BannersModel::update(new Banner((object) array_merge(['id' => $id], $_PUT)));
 
 		return $banner;

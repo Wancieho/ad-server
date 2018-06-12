@@ -12,35 +12,35 @@ use Config;
 
 class DB {
 
-    static private $handler;
+	static private $handler;
 
-    /*
-     * Connect to DB and set class static handler property
-     * 
-     * @return void
-     */
+	/*
+	 * connect to DB and set class static handler property
+	 * 
+	 * @return void
+	 */
 
-    static private function connect() {
-        self::$handler = @new mysqli(Config::$mysqli->server, Config::$mysqli->username, Config::$mysqli->password, Config::$mysqli->database);
+	static private function connect() {
+		self::$handler = @new mysqli(Config::$mysqli->server, Config::$mysqli->username, Config::$mysqli->password, Config::$mysqli->database);
 
-        if (!is_null(self::$handler->connect_error)) {
-            throw new RestException(401, 'DB connection failed: ' . self::$handler->connect_error);
-        }
-    }
+		if (!is_null(self::$handler->connect_error)) {
+			throw new RestException(401, 'DB connection failed: ' . self::$handler->connect_error);
+		}
+	}
 
-    /*
-     * Check if DB connected
-     * 
-     * @return object
-     */
+	/*
+	 * check if DB connected
+	 * 
+	 * @return object
+	 */
 
-    static public function handler() {
-        // if handler has not been created then create now
-        if (is_null(self::$handler)) {
-            self::connect();
-        }
+	static public function handler() {
+		// if handler has not been created then create now
+		if (is_null(self::$handler)) {
+			self::connect();
+		}
 
-        return self::$handler;
-    }
+		return self::$handler;
+	}
 
 }

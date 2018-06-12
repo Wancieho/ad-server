@@ -13,7 +13,7 @@ class MysqliHandler {
 	static public $table = '';
 
 	/*
-	 * Creates an entry in the specified table
+	 * creates an entry in the specified table
 	 * 
 	 * @return object
 	 */
@@ -77,7 +77,7 @@ class MysqliHandler {
 	}
 
 	/*
-	 * Reads either a single table row or multiple rows depending on params
+	 * reads either a single table row or multiple rows depending on params
 	 * 
 	 * @return mixed
 	 */
@@ -100,10 +100,6 @@ class MysqliHandler {
 
 		$statement = DB::handler()->prepare($query);
 
-		if (!$statement) {
-			throw new RestException(401, 'Error executing query `' . $query . '`');
-		}
-
 		if ($statement) {
 			$statement->execute();
 
@@ -122,13 +118,13 @@ class MysqliHandler {
 			$statement->close();
 
 			return $data;
+		} else {
+			throw new RestException(401, 'Error executing query `' . $query . '`');
 		}
-
-		return null;
 	}
 
 	/*
-	 * Update table row
+	 * update table row
 	 * 
 	 * @return object
 	 */
@@ -191,7 +187,7 @@ class MysqliHandler {
 	}
 
 	/*
-	 * Delete row from table
+	 * delete row from table
 	 * 
 	 * @return object
 	 */
@@ -234,7 +230,7 @@ class MysqliHandler {
 	}
 
 	/*
-	 * Reusable query error method
+	 * reusable query error method
 	 * 
 	 * @return string
 	 */
@@ -246,7 +242,7 @@ class MysqliHandler {
 	}
 
 	/*
-	 * Where claus Query string builder
+	 * where clause Query string builder
 	 * 
 	 * @return string
 	 */

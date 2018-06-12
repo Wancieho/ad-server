@@ -5,20 +5,38 @@ namespace App\Utils;
 use Jacwright\RestServer\RestException;
 
 /*
- * File system management
+ * file system management
  */
 
 class File {
 	/*
-	 * Attempt to open a specified file
+	 * open a specified file and insert data
+	 * 
+	 * @return void
+	 */
+
+	static public function create($file = '', $string = '') {
+		if (!$handle = @fopen($file, 'w')) {
+			throw new RestException(401, 'Unable to open file `' . $file . '`');
+		}
+
+		if (!fwrite($handle, $string)) {
+			throw new RestException(401, 'Unable to write to file `' . $file . '`');
+		}
+
+		fclose($handle);
+	}
+
+	/*
+	 * open a specified file
 	 * 
 	 * @return string
 	 */
 
-	static public function readContents($file = '', $mode = 'r') {
-		if ($handler = @fopen($file, $mode)) {
+	static public function read($file = '', $mode = 'r') {
+		if ($handle = @fopen($file, $mode)) {
 			if (filesize($file) > 0) {
-				if ($content = @fread($handler, filesize($file))) {
+				if ($content = @fread($handle, filesize($file))) {
 					return $content;
 				}
 			}
@@ -30,7 +48,7 @@ class File {
 	}
 
 	/*
-	 * Check if the specified file exists
+	 * check specified file exists
 	 * 
 	 * @return boolean
 	 */
@@ -44,7 +62,7 @@ class File {
 	}
 
 	/*
-	 * Attempt to create the specified file
+	 * create specified file
 	 * 
 	 * @return boolean
 	 */

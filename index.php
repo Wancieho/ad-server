@@ -6,6 +6,9 @@ use Jacwright\RestServer\RestServer;
 
 spl_autoload_register();
 
+$_PUT = [];
+parse_str(file_get_contents('php://input'), $_PUT);
+
 $mode = 'debug';
 $server = new RestServer($mode);
 

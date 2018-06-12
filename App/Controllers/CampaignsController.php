@@ -29,8 +29,8 @@ class CampaignsController {
 	public function readAll() {
 		$campaigns = CampaignsModel::get();
 
-		foreach ($campaigns as &$val) {
-			unset($val['id']);
+		foreach ($campaigns as &$campaign) {
+			unset($campaign->id);
 		}
 
 		return $campaigns;
@@ -53,10 +53,6 @@ class CampaignsController {
 	 * @return object
 	 */
 	public function update($id = null) {
-		$_PUT = [];
-
-		parse_str(file_get_contents('php://input'), $_PUT);
-
 		$campaign = CampaignsModel::update(new Campaign((object) [
 							'id' => $id,
 							'name' => $_PUT['name'],

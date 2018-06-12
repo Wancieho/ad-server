@@ -5,7 +5,7 @@ namespace App\Objects;
 use stdClass;
 
 /*
- * Banner object class
+ * banner object class
  */
 
 final class Banner {

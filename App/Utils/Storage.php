@@ -6,12 +6,12 @@ use Jacwright\RestServer\RestException;
 use Config;
 
 /*
- * Model class that custom models use to query DB or save to file system
+ * interacts with MySQLi or file storage classes depending on config
  */
 
 class Storage {
 	/*
-	 * Property used for either MySQL table name or file storage file name
+	 * property used for either MySQL table name or file storage file name
 	 */
 
 	static protected $store = '';
@@ -33,7 +33,7 @@ class Storage {
 	}
 
 	/*
-	 * Switching method for reading either from file or MySQL specified by Config driver
+	 * chooses relevant driver to interact with
 	 * 
 	 * @return mixed
 	 */
@@ -82,7 +82,7 @@ class Storage {
 	}
 
 	/*
-	 * Generate dynamic store name based on child class
+	 * generate dynamic store name based on child class or child $store property
 	 * 
 	 * @return string
 	 */
